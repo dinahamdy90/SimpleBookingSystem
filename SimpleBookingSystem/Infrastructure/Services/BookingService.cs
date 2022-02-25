@@ -37,10 +37,8 @@ namespace SimpleBookingSystem.Infrastructure.Services
 
             if(selectedResource.Booking != null && selectedResource.Booking.Any())
             {
-                if (selectedResource.Booking.Any(x => DateUtility.DatesOverlap(x.DateFrom, x.DateTo, createBookingRequestModel.DateFrom, createBookingRequestModel.DateTo)))
-                    throw new ApiException(HttpStatusCode.Conflict, BookingErrorCodes.DatesConflicts.ToString());
-
-                if(selectedResource.Quantity - selectedResource.Booking.Sum(x=>x.BookedQuantity) < createBookingRequestModel.BookedQuantity)
+                var bookings = selectedResource.Booking.Where(x => DateUtility.DatesOverlap(x.DateFrom, x.DateTo, createBookingRequestModel.DateFrom, createBookingRequestModel.DateTo));
+                if(selectedResource.Quantity - bookings.Sum(x=>x.BookedQuantity) < createBookingRequestModel.BookedQuantity)
                     throw new ApiException(HttpStatusCode.BadRequest, BookingErrorCodes.QuantityUnavailable.ToString());
             }
         }

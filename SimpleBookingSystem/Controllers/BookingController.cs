@@ -20,7 +20,6 @@ namespace SimpleBookingSystem.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(CreateBookingResponseModel), StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateBooking([FromBody] CreateBookingRequestModel createBookingRequestModel)
         {
